@@ -1,0 +1,10 @@
+# scope.txt · programa: Figma · consultado: 2026-10-28
+# Activos dentro del alcance (In-Scope elegibles):
+www.figma.com
+api.figma.com
+*.figma.com
+weavy.ai
+# fuera de alcance (Out-of-Scope inelegible):
+!www.designsystems.com
+!zendesk.com
+!statuspage.io
