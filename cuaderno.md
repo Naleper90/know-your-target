@@ -14,10 +14,16 @@
 - **Qué salió:** Cobertura amplia para `*.figma.com`, APIs (`api.figma.com`) y `weavy.ai`. Exclusión explícita de `www.designsystems.com` y servicios de terceros. Prohibición de DoS, fuerza bruta agresiva e ingeniería social a empleados.
 - **Evidencia:**
   <p align="center">
-    <img src="img/01-hackerone-scope.png" alt="Alcance en HackerOne" style="max-width: 100%; height: auto; border-radius: 6px;" />
+    <img src="img/01a-hackerone-programa.png" alt="Programa de Bug Bounty y Recompensas de Figma" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
   </p>
   <p align="center">
-    <img src="img/02-hackerone-assets-scope.png" alt="Tabla de Activos de Figma" style="max-width: 100%; height: auto; border-radius: 6px;" />
+    <img src="img/01b-hackerone-descripcion.png" alt="Descripción General y Política de Divulgación" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  </p>
+  <p align="center">
+    <img src="img/01c-hackerone-reglas.png" alt="Reglas del Programa y Vulnerabilidades Fuera de Alcance" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  </p>
+  <p align="center">
+    <img src="img/02-hackerone-assets-scope.png" alt="Tabla Oficial de Activos de Figma" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
   </p>
 - **Siguiente paso:** Crear `scope.txt` formal y comenzar la enumeración DNS pasiva.
 

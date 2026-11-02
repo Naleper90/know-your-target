@@ -63,14 +63,24 @@ En base a la política oficial de HackerOne de Figma y las instrucciones especí
 
 ## 4. Evidencias Gráficas (Capturas del Programa y Activos)
 
-### 4.1 Directrices y Resumen del Programa
+### 4.1 Resumen y Recompensas del Programa (HackerOne)
 <p align="center">
-  <img src="img/01-hackerone-scope.png" alt="Programa Bug Bounty Figma en HackerOne" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  <img src="img/01a-hackerone-programa.png" alt="Programa de Bug Bounty y Recompensas de Figma" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
 </p>
 
-### 4.2 Tabla Detallada de Activos (In-Scope y Out-of-Scope)
+### 4.2 Objetivos de Respuesta y Política de Divulgación
 <p align="center">
-  <img src="img/02-hackerone-assets-scope.png" alt="Tabla Oficial de Activos de Figma en HackerOne" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  <img src="img/01b-hackerone-descripcion.png" alt="Descripción General y Política de Divulgación" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
+</p>
+
+### 4.3 Reglas del Programa y Exclusiones Específicas
+<p align="center">
+  <img src="img/01c-hackerone-reglas.png" alt="Reglas del Programa y Vulnerabilidades Fuera de Alcance" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
+</p>
+
+### 4.4 Tabla Detallada de Activos (In-Scope y Out-of-Scope)
+<p align="center">
+  <img src="img/02-hackerone-assets-scope.png" alt="Tabla Oficial de Activos de Figma en HackerOne" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
 </p>
 <p align="center">
   <em>(Evidencia de la tabla oficial de HackerOne donde se aprecia <code>www.figma.com</code> y <code>api.figma.com</code> en el ámbito, y <code>www.designsystems.com</code> fuera de alcance).</em>
