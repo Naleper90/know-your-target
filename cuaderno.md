@@ -12,6 +12,8 @@
 - **Qué hice:** Consulta y lectura de la política pública de Bug Bounty de Figma en HackerOne (`https://hackerone.com/figma`). Extracción de reglas de compromiso, activos autorizados y exclusiones.
 - **Qué salió:** Cobertura amplia para `*.figma.com`, APIs (`api.figma.com`) y `weavy.ai`. Exclusión explícita de `www.designsystems.com` y servicios de terceros. Prohibición de DoS, fuerza bruta agresiva e ingeniería social a empleados.
 - **Evidencia:** `img/01-hackerone-scope.png` y `img/02-hackerone-assets-scope.png`
+  ![Alcance en HackerOne](img/01-hackerone-scope.png)
+  ![Tabla de Activos de Figma](img/02-hackerone-assets-scope.png)
 - **Siguiente paso:** Crear `scope.txt` formal y comenzar la enumeración DNS pasiva.
 
 ---
@@ -46,6 +48,7 @@
   - **Servicios de producción e infraestructura interna:** `api.figma.com`, `admin.figma.com`, `figma-for-jira.figma.com`, `artifactory.prod.figma.com`, `status.figma.com`.
   - **Almacenamiento S3 / CDN:** Múltiples buckets y proxies identificados (`s3-figma-plugin-images-production-sig.figma.com`, `api-cdn.figma.com`).
 - **Evidencia:** `img/06-subfinder-figma.png`
+  ![Subdominios descubiertos con subfinder](img/06-subfinder-figma.png)
 - **Siguiente paso:** Inspeccionar ficheros expuestos (`robots.txt` y `security.txt`) para detectar rutas prohibidas a indexadores.
 
 ---
@@ -62,6 +65,7 @@
   - **`robots.txt`:** Figma implementa un bloqueo exhaustivo contra bots agresivos y rastreadores de indexación masiva (`User-Agent: Fasterfox, Nutch, spock, MJ12bot, TurnitinBot... Disallow: /`).
   - **`security.txt` (RFC 9116):** Fichero oficial de reporte de vulnerabilidades con validez hasta octubre de 2027 (`Expires: 2027-10-21`). Enlaza directamente su canal de divulgación y política a HackerOne (`https://hackerone.com/figma`), agradecimientos (`/thanks`) y página de contratación de talento en ciberseguridad.
 - **Evidencia:** `img/07-ficheros-expuestos-figma.png`
+  ![Rutas expuestas en robots.txt y security.txt](img/07-ficheros-expuestos-figma.png)
 - **Siguiente paso:** Investigar la huella tecnológica y el histórico de infraestructura mediante Netcraft y Wappalyzer.
 
 ---
@@ -82,6 +86,7 @@
     - `X-Frame-Options: SAMEORIGIN` (mitigación contra ataques de Clickjacking).
     - `Content-Security-Policy` (CSP) y `X-Content-Type-Options: nosniff`.
 - **Evidencia:** `img/08-whatweb-figma.png`
+  ![Huella tecnológica con whatweb](img/08-whatweb-figma.png)
 - **Siguiente paso:** Completar el análisis de Whois del dominio mediante RDAP / consulta web.
 
 ---
@@ -100,6 +105,7 @@
   - **Última actualización:** `2026-05-15`.
   - **Servidores de nombres autoritativos (DNS):** `NS-1239.AWSDNS-26.ORG`, `NS-1657.AWSDNS-15.CO.UK`, `NS-326.AWSDNS-40.COM` (delegados en Amazon Route 53).
 - **Evidencia:** `img/09-whois-rdap-figma.png`
+  ![Registro RDAP Verisign](img/09-whois-rdap-figma.png)
 - **Siguiente paso:** Descubrimiento de servicios expuestos y puertos en motores de búsqueda pasivos (Shodan / InternetDB).
 
 ---
@@ -118,6 +124,7 @@
   - **Etiquetas (Tags):** `cdn`, `cloud`.
   - **Vulnerabilidades públicas conocidas (`vulns`):** `[]` (cero CVEs críticos reportados en el nodo perimetral).
 - **Evidencia:** `img/10-shodan-internetdb-figma.png`
+  ![Puertos y servicios en Shodan InternetDB](img/10-shodan-internetdb-figma.png)
 - **Siguiente paso:** Búsqueda pasiva de documentos y directorios indexados mediante Google Dorks.
 
 ---
@@ -139,6 +146,7 @@
        - **Sede Física del ISMS:** `760 Market Street, Floor 10, San Francisco, CA 94102`.
     2. **Certificado ISO/IEC 27001:2022 (Schellman Compliance):** Certificado número `1082672-1`, con validez hasta el 22 de enero de 2027.
 - **Evidencia:** `img/11-google-dorks-figma.png` (Ficheros descargados para análisis: `evidencia-soc3-figma.pdf` y `evidencia-iso27001-figma.pdf`).
+  ![Google Dorks con resultados PDF](img/11-google-dorks-figma.png)
 - **Siguiente paso:** Investigar la estructura de personas y patrón de correos corporativos en Hunter.io.
 
 ---
@@ -161,6 +169,7 @@
     - Política estricta `-all` (Hard Fail: cualquier correo que no provenga de estos servidores debe ser rechazado para evitar suplantación de identidad / Spoofing).
   - **Patrón corporativo habitual:** `{first}.{last}@figma.com` (verificado en la estructura de contactos de soporte y auditoría).
 - **Evidencia:** `img/12-correos-theharvester-spf.png`
+  ![Consulta theHarvester y registro SPF](img/12-correos-theharvester-spf.png)
 - **Siguiente paso:** Consolidar todos los hallazgos en el documento final `mapa.md`.
 
 ---
@@ -187,6 +196,7 @@
   - **Etiquetas (Tags):** `cdn`, `cloud`.
   - **Vulnerabilidades públicas conocidas (`vulns`):** `[]` (cero CVEs críticos reportados en el nodo perimetral).
 - **Evidencia:** `img/10-shodan-internetdb-figma.png`
+  ![Puertos y servicios en Shodan InternetDB](img/10-shodan-internetdb-figma.png)
 - **Siguiente paso:** Búsqueda pasiva de documentos y directorios indexados mediante Google Dorks.
 
 ---
@@ -208,6 +218,7 @@
        - **Sede Física del ISMS:** `760 Market Street, Floor 10, San Francisco, CA 94102`.
     2. **Certificado ISO/IEC 27001:2022 (Schellman Compliance):** Certificado número `1082672-1`, con validez hasta el 22 de enero de 2027.
 - **Evidencia:** `img/11-google-dorks-figma.png` (Ficheros descargados para análisis: `evidencia-soc3-figma.pdf` y `evidencia-iso27001-figma.pdf`).
+  ![Google Dorks con resultados PDF](img/11-google-dorks-figma.png)
 - **Siguiente paso:** Investigar la estructura de personas y patrón de correos corporativos en Hunter.io.
 
 ---
@@ -230,6 +241,7 @@
     - Política estricta `-all` (Hard Fail: cualquier correo que no provenga de estos servidores debe ser rechazado para evitar suplantación de identidad / Spoofing).
   - **Patrón corporativo habitual:** `{first}.{last}@figma.com` (verificado en la estructura de contactos de soporte y auditoría).
 - **Evidencia:** `img/12-correos-theharvester-spf.png`
+  ![Consulta theHarvester y registro SPF](img/12-correos-theharvester-spf.png)
 - **Siguiente paso:** Consolidar todos los hallazgos en el documento final `mapa.md`.
 
 ## Entrada 08 · Google Dorks y Ficheros Indexados (Técnica 7)
@@ -249,6 +261,7 @@
        - **Sede Física del ISMS:** `760 Market Street, Floor 10, San Francisco, CA 94102`.
     2. **Certificado ISO/IEC 27001:2022 (Schellman Compliance):** Certificado número `1082672-1`, con validez hasta el 22 de enero de 2027.
 - **Evidencia:** `img/11-google-dorks-figma.png` (Ficheros descargados para análisis: `evidencia-soc3-figma.pdf` y `evidencia-iso27001-figma.pdf`).
+  ![Google Dorks con resultados PDF](img/11-google-dorks-figma.png)
 - **Siguiente paso:** Investigar la estructura de personas y patrón de correos corporativos en Hunter.io.
 
 ---
@@ -271,6 +284,7 @@
     - Política estricta `-all` (Hard Fail: cualquier correo que no provenga de estos servidores debe ser rechazado para evitar suplantación de identidad / Spoofing).
   - **Patrón corporativo habitual:** `{first}.{last}@figma.com` (verificado en la estructura de contactos de soporte y auditoría).
 - **Evidencia:** `img/12-correos-theharvester-spf.png`
+  ![Consulta theHarvester y registro SPF](img/12-correos-theharvester-spf.png)
 - **Siguiente paso:** Consolidar todos los hallazgos en el documento final `mapa.md`.
 
 ## Entrada 09 · Correos Corporativos, SPF y Personas (Técnica 8)
@@ -291,4 +305,5 @@
     - Política estricta `-all` (Hard Fail: cualquier correo que no provenga de estos servidores debe ser rechazado para evitar suplantación de identidad / Spoofing).
   - **Patrón corporativo habitual:** `{first}.{last}@figma.com` (verificado en la estructura de contactos de soporte y auditoría).
 - **Evidencia:** `img/12-correos-theharvester-spf.png`
+  ![Consulta theHarvester y registro SPF](img/12-correos-theharvester-spf.png)
 - **Siguiente paso:** Consolidar todos los hallazgos en el documento final `mapa.md`.
