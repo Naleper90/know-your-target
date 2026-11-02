@@ -15,7 +15,9 @@ Figma Inc. opera una plataforma SaaS de diseño colaborativo alojada íntegramen
 
 ## 2. Dominios y Subdominios Relevantes
 
-De los **100 subdominios descubiertos** durante la fase de reconocimiento pasivo mediante `subfinder` y certificados SSL, se destacan los activos más representativos agrupados por su criticidad e impacto:
+De los **100 subdominios descubiertos** durante la fase de reconocimiento pasivo mediante `subfinder` y certificados SSL, se destacan en la siguiente tabla los activos más representativos y críticos para el modelado de amenazas.
+
+> **Nota metodológica y anexo:** El listado completo y sin procesar de los 100 subdominios identificados se encuentra registrado en la **Entrada 03** del [cuaderno.md](./cuaderno.md) y preservado en el fichero de trabajo del entorno del laboratorio (`subdominios.txt`), garantizando la trazabilidad integral de la superficie descubierta.
 
 | Subdominio | Dirección IP / Hostname | En Alcance (In Scope) | Función Estimada / Rol en la Superficie |
 | :--- | :--- | :--- | :--- |
@@ -48,6 +50,7 @@ De los **100 subdominios descubiertos** durante la fase de reconocimiento pasivo
 ## 4. Correos y Factor Humano
 
 - **Patrón de Correo Corporativo:** `{first}.{last}@figma.com` (deducido y verificado a través de estructuras de contacto en soporte y auditorías).
+- **Medidas Activas de Privacidad en Búsquedas Abiertas:** Durante la consulta con `theHarvester` sobre motores públicos (DuckDuckGo), no se identificaron direcciones de correo electrónico indexadas en texto plano accesible. Esto evidencia una **medida activa y deliberada de privacidad corporativa por parte de Figma** (ofuscación de datos en directorios públicos, prevención de recolección automatizada y políticas estrictas contra el scraping no autorizado para proteger a su plantilla contra ataques de ingeniería social y spam masivo).
 - **Servicios de Envío Autorizados (SPF DNS):**
   - **Google Workspace** (`include:_spf.google.com`): Comunicaciones directas de los trabajadores.
   - **Zendesk** (`include:mail.zendesk.com`): Plataforma oficial de tickets y atención técnica a usuarios.
