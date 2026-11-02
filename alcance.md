@@ -64,8 +64,14 @@ En base a la política oficial de HackerOne de Figma y las instrucciones especí
 ## 4. Evidencias Gráficas (Capturas del Programa y Activos)
 
 ### 4.1 Directrices y Resumen del Programa
-![Programa Bug Bounty Figma en HackerOne](img/01-hackerone-scope.png)
+<p align="center">
+  <img src="img/01-hackerone-scope.png" alt="Programa Bug Bounty Figma en HackerOne" style="max-width: 100%; height: auto; border-radius: 6px;" />
+</p>
 
 ### 4.2 Tabla Detallada de Activos (In-Scope y Out-of-Scope)
-![Tabla Oficial de Activos de Figma en HackerOne](img/02-hackerone-assets-scope.png)
-*(Evidencia de la tabla oficial de HackerOne donde se aprecia `www.figma.com` y `api.figma.com` en el ámbito, y `www.designsystems.com` fuera de alcance).*
+<p align="center">
+  <img src="img/02-hackerone-assets-scope.png" alt="Tabla Oficial de Activos de Figma en HackerOne" style="max-width: 100%; height: auto; border-radius: 6px;" />
+</p>
+<p align="center">
+  <em>(Evidencia de la tabla oficial de HackerOne donde se aprecia <code>www.figma.com</code> y <code>api.figma.com</code> en el ámbito, y <code>www.designsystems.com</code> fuera de alcance).</em>
+</p>

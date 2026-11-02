@@ -1,6 +1,7 @@
 # Cuaderno de Trabajo: Reconocimiento Pasivo sobre Figma Inc.
 
 - **Objetivo:** Figma Inc. (`figma.com`)
+- **Estudiante:** Natalia Alejo Pérez (Alumno 20)
 - **Alcance:** Definido en `scope.txt` (`*.figma.com`, `weavy.ai`, `!www.designsystems.com`)
 - **Metodología:** Cinco anotaciones por acción (`cuándo` · `objetivo y alcance` · `qué hice` · `qué salió` · `siguiente paso`).
 
@@ -12,8 +13,12 @@
 - **Qué hice:** Consulta y lectura de la política pública de Bug Bounty de Figma en HackerOne (`https://hackerone.com/figma`). Extracción de reglas de compromiso, activos autorizados y exclusiones.
 - **Qué salió:** Cobertura amplia para `*.figma.com`, APIs (`api.figma.com`) y `weavy.ai`. Exclusión explícita de `www.designsystems.com` y servicios de terceros. Prohibición de DoS, fuerza bruta agresiva e ingeniería social a empleados.
 - **Evidencia:**
-  ![Alcance en HackerOne](img/01-hackerone-scope.png)
-  ![Tabla de Activos de Figma](img/02-hackerone-assets-scope.png)
+  <p align="center">
+    <img src="img/01-hackerone-scope.png" alt="Alcance en HackerOne" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  </p>
+  <p align="center">
+    <img src="img/02-hackerone-assets-scope.png" alt="Tabla de Activos de Figma" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  </p>
 - **Siguiente paso:** Crear `scope.txt` formal y comenzar la enumeración DNS pasiva.
 
 ---
@@ -30,9 +35,15 @@
   - **Registros MX:** Gestionados por Google Workspace (`aspmx.l.google.com`, `alt1.aspmx.l.google.com`, `alt2...`, prioridad 1, 5 y 10).
   - **Parámetros ALPN:** Soporte de protocolos modernos HTTP/2 y HTTP/3 (`h2,h3`).
 - **Evidencia:**
-  ![Túnel WireGuard Activo](img/03-wireguard-activo.png)
-  ![Conexión SSH al Kali Remoto](img/04-ssh-kali-conectado.png)
-  ![Resolución DNS de Figma](img/05-dns-host-figma.png)
+  <p align="center">
+    <img src="img/03-wireguard-activo.png" alt="Túnel WireGuard Activo" width="550" />
+  </p>
+  <p align="center">
+    <img src="img/04-ssh-kali-conectado.png" alt="Conexión SSH al Kali Remoto" width="650" />
+  </p>
+  <p align="center">
+    <img src="img/05-dns-host-figma.png" alt="Resolución DNS de Figma" width="650" />
+  </p>
 - **Siguiente paso:** Descubrimiento pasivo de subdominios con `subfinder`.
 
 ---
@@ -51,7 +62,9 @@
   - **Servicios de producción e infraestructura interna:** `api.figma.com`, `admin.figma.com`, `figma-for-jira.figma.com`, `artifactory.prod.figma.com`, `status.figma.com`.
   - **Almacenamiento S3 / CDN:** Múltiples proxies y buckets (`s3-figma-plugin-images-production-sig.figma.com`, `api-cdn.figma.com`).
 - **Evidencia:**
-  ![Subdominios descubiertos con subfinder](img/06-subfinder-figma.png)
+  <p align="center">
+    <img src="img/06-subfinder-figma.png" alt="Subdominios descubiertos con subfinder" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  </p>
 - **Siguiente paso:** Inspeccionar ficheros expuestos (`robots.txt` y `security.txt`) para detectar rutas prohibidas a indexadores.
 
 ---
@@ -68,7 +81,9 @@
   - **`robots.txt`:** Figma implementa un bloqueo exhaustivo contra bots agresivos y rastreadores de indexación masiva (`User-Agent: Fasterfox, Nutch, spock, MJ12bot, TurnitinBot... Disallow: /`).
   - **`security.txt` (RFC 9116):** Fichero oficial de reporte de vulnerabilidades con validez hasta octubre de 2027 (`Expires: 2027-10-21`). Enlaza directamente su canal de divulgación y política a HackerOne (`https://hackerone.com/figma`), agradecimientos (`/thanks`) y página de contratación de talento en ciberseguridad.
 - **Evidencia:**
-  ![Rutas expuestas en robots.txt y security.txt](img/07-ficheros-expuestos-figma.png)
+  <p align="center">
+    <img src="img/07-ficheros-expuestos-figma.png" alt="Rutas expuestas en robots.txt y security.txt" width="650" />
+  </p>
 - **Siguiente paso:** Investigar la huella tecnológica y el histórico de infraestructura mediante whatweb.
 
 ---
@@ -89,7 +104,9 @@
     - `X-Frame-Options: SAMEORIGIN` (mitigación contra ataques de Clickjacking).
     - `Content-Security-Policy` (CSP) y `X-Content-Type-Options: nosniff`.
 - **Evidencia:**
-  ![Huella tecnológica con whatweb](img/08-whatweb-figma.png)
+  <p align="center">
+    <img src="img/08-whatweb-figma.png" alt="Huella tecnológica con whatweb" width="650" />
+  </p>
 - **Siguiente paso:** Completar el análisis de Whois del dominio mediante RDAP.
 
 ---
@@ -97,7 +114,7 @@
 ## Entrada 06 · Registro del Dominio / Whois (Técnica 1)
 - **Cuándo:** 2026-11-02 19:53
 - **Objetivo:** `figma.com` (In Scope)
-- **Qué hice:** Consulta del registro de asignación del dominio mediante el protocolo moderno RDAP de VeriSign (alternativa oficial a WHOIS sobre HTTPS al estar restringido el puerto 43 en la red del laboratorio):
+- **Qué hice:** Como el comando tradicional `whois` por el puerto 43 daba error de red bloqueada en el contenedor del laboratorio, utilicé la API oficial RDAP de VeriSign sobre HTTPS con `curl` para consultar los datos de registro del dominio:
   ```bash
   curl -s https://rdap.verisign.com/com/v1/domain/figma.com | grep -oE '"(ldhName|eventAction|eventDate)":"[^"]+"' | head -n 12
   ```
@@ -108,7 +125,9 @@
   - **Última actualización:** `2026-05-15`.
   - **Servidores de nombres autoritativos (DNS):** `NS-1239.AWSDNS-26.ORG`, `NS-1657.AWSDNS-15.CO.UK`, `NS-326.AWSDNS-40.COM` (delegados en Amazon Route 53).
 - **Evidencia:**
-  ![Registro RDAP Verisign](img/09-whois-rdap-figma.png)
+  <p align="center">
+    <img src="img/09-whois-rdap-figma.png" alt="Registro RDAP Verisign" width="650" />
+  </p>
 - **Siguiente paso:** Descubrimiento de servicios expuestos y puertos en Shodan InternetDB.
 
 ---
@@ -127,7 +146,9 @@
   - **Etiquetas (Tags):** `cdn`, `cloud`.
   - **Vulnerabilidades públicas conocidas (`vulns`):** `[]` (cero CVEs críticos reportados en el nodo perimetral).
 - **Evidencia:**
-  ![Puertos y servicios en Shodan InternetDB](img/10-shodan-internetdb-figma.png)
+  <p align="center">
+    <img src="img/10-shodan-internetdb-figma.png" alt="Puertos y servicios en Shodan InternetDB" width="650" />
+  </p>
 - **Siguiente paso:** Búsqueda pasiva de documentos y directorios indexados mediante Google Dorks.
 
 ---
@@ -149,7 +170,9 @@
        - **Sede Física del ISMS:** `760 Market Street, Floor 10, San Francisco, CA 94102`.
     2. **Certificado ISO/IEC 27001:2022 (Schellman Compliance):** Certificado número `1082672-1`, con validez hasta el 22 de enero de 2027.
 - **Evidencia:**
-  ![Google Dorks con resultados PDF](img/11-google-dorks-figma.png)  
+  <p align="center">
+    <img src="img/11-google-dorks-figma.png" alt="Google Dorks con resultados PDF" width="650" />
+  </p>
   *(Ficheros preservados en el repositorio: [evidencia-soc3-figma.pdf](img/evidencia-soc3-figma.pdf) y [evidencia-iso27001-figma.pdf](img/evidencia-iso27001-figma.pdf)).*
 - **Siguiente paso:** Investigar la estructura de personas y patrón de correos corporativos en Hunter.io / theHarvester.
 
@@ -158,7 +181,7 @@
 ## Entrada 09 · Correos Corporativos, SPF y Personas (Técnica 8)
 - **Cuándo:** 2026-11-02 20:16
 - **Objetivo:** `figma.com` (In Scope)
-- **Qué hice:** Búsqueda pasiva de correos y personas mediante `theHarvester` y análisis de remitentes autorizados mediante el registro DNS SPF (`Sender Policy Framework`):
+- **Qué hice:** Lanzamiento de `theHarvester` desde la terminal del laboratorio usando DuckDuckGo como fuente (ya que la opción Bing aparecía obsoleta en la herramienta). Para complementar la búsqueda pasiva de personas y correos, examiné directamente el registro DNS SPF (`Sender Policy Framework`):
   ```bash
   theHarvester -d figma.com -b duckduckgo -l 100
   host -t txt figma.com | grep -i "v=spf1"
@@ -173,5 +196,7 @@
     - Política estricta `-all` (Hard Fail: cualquier correo que no provenga de estos servidores debe ser rechazado para evitar suplantación de identidad / Spoofing).
   - **Patrón corporativo habitual:** `{first}.{last}@figma.com` (verificado en la estructura de contactos de soporte y auditoría).
 - **Evidencia:**
-  ![Consulta theHarvester y registro SPF](img/12-correos-theharvester-spf.png)
+  <p align="center">
+    <img src="img/12-correos-theharvester-spf.png" alt="Consulta theHarvester y registro SPF" width="650" />
+  </p>
 - **Siguiente paso:** Consolidar todos los hallazgos en el documento final `mapa.md`.

@@ -1,6 +1,6 @@
 # Know Your Target — Mapa de Superficie de Ataque: Figma Inc.
 
-- **Estudiante:** Alumno 20
+- **Estudiante:** Natalia Alejo Pérez (Alumno 20)
 - **Asignatura:** Curso de Especialización en Ciberseguridad
 - **Centro:** IES Rafael Alberti
 - **Objetivo Seleccionado:** Figma Inc. (`figma.com`)
