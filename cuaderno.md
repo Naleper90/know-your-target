@@ -2,8 +2,10 @@
 
 - **Objetivo:** Figma Inc. (`figma.com`)
 - **Estudiante:** Natalia Alejo Pérez (Alumno 20)
-- **Alcance:** Definido en `scope.txt` (`*.figma.com`, `weavy.ai`, `!www.designsystems.com`)
+- **Alcance:** Definido en `scope.txt` (`www.figma.com`, `api.figma.com`, `weavy.ai`, `!www.designsystems.com`)
 - **Metodología:** Cinco anotaciones por acción (`cuándo` · `objetivo y alcance` · `qué hice` · `qué salió` · `siguiente paso`).
+
+> **Nota de corrección (11/11/2026):** Las entradas se escribieron con un `scope.txt` que incluía el comodín `*.figma.com`, que **no figura en la tabla oficial de HackerOne** (véase [alcance.md](./alcance.md)). Por eso varias entradas dicen «In Scope» para `figma.com` y para subdominios. Según la tabla oficial, solo `www.figma.com`, `api.figma.com` y `weavy.ai` están listados. Las consultas sobre `figma.com` (DNS, RDAP, Shodan InternetDB y `subfinder`) usan fuentes públicas de terceros. Las peticiones directas a los servidores de Figma se limitaron a `robots.txt`, `security.txt` y las cabeceras de `www.figma.com`. Las entradas originales no se han reescrito.
 
 ---
 
@@ -11,7 +13,7 @@
 - **Cuándo:** 2026-10-28 10:35
 - **Objetivo:** `figma.com` (In Scope)
 - **Qué hice:** Consulta y lectura de la política pública de Bug Bounty de Figma en HackerOne (`https://hackerone.com/figma`). Extracción de reglas de compromiso, activos autorizados y exclusiones.
-- **Qué salió:** Cobertura amplia para `*.figma.com`, APIs (`api.figma.com`) y `weavy.ai`. Exclusión explícita de `www.designsystems.com` y servicios de terceros. Prohibición de DoS, fuerza bruta agresiva e ingeniería social a empleados.
+- **Qué salió:** Activos listados: `www.figma.com`, `api.figma.com`, `weavy.ai` y varias aplicaciones e integraciones. No hay comodín `*.figma.com`. Exclusión explícita de `www.designsystems.com`. La política prohíbe la denegación de servicio y la ingeniería social.
 - **Evidencia:**
   <p align="center">
     <img src="img/01a-hackerone-programa.png" alt="Programa de Bug Bounty y Recompensas de Figma" width="650" style="max-width: 100%; height: auto; border-radius: 6px;" />
@@ -37,7 +39,7 @@
   host figma.com
   ```
 - **Qué salió:** 
-  - **Registros A (IPv4):** `3.174.170.3`, `3.174.170.84`, `3.174.170.42`, `3.174.170.18` (clúster de balanceo en AWS `us-east-2`).
+  - **Registros A (IPv4):** `3.174.170.3`, `3.174.170.84`, `3.174.170.42`, `3.174.170.18` (rango de Amazon CloudFront, según la Entrada 07).
   - **Registros MX:** Gestionados por Google Workspace (`aspmx.l.google.com`, `alt1.aspmx.l.google.com`, `alt2...`, prioridad 1, 5 y 10).
   - **Parámetros ALPN:** Soporte de protocolos modernos HTTP/2 y HTTP/3 (`h2,h3`).
 - **Evidencia:**
@@ -113,6 +115,7 @@
   <p align="center">
     <img src="img/08-whatweb-figma.png" alt="Huella tecnológica con whatweb" width="650" />
   </p>
+- **Nota (11/11/2026):** `whatweb` envía peticiones HTTP directas a `www.figma.com`. La técnica de referencia del enunciado para la huella tecnológica es Netcraft, que es una consulta pasiva. El cambio de herramienta no se justificó en su momento.
 - **Siguiente paso:** Completar el análisis de Whois del dominio mediante RDAP.
 
 ---
@@ -168,7 +171,7 @@
   ```
 - **Qué salió:** 
   - Se descubrió un subdominio de almacenamiento estático indexado: `https://static.figma.com/uploads/`.
-  - **Ficheros sensibles de auditoría y cumplimiento identificados:**
+  - **Documentos públicos de auditoría y cumplimiento identificados** (informes que Figma publica en su sitio; no contienen credenciales ni datos de usuarios):
     1. **Informe SOC 3 (BDO USA, Feb 2024):** Reporte de controles del sistema sobre seguridad, disponibilidad y confidencialidad. Revela la arquitectura completa interna:
        - **Infraestructura Cloud:** Alojada en AWS (regiones `US West`, `US East`, `EU Central`, `EU West`) con multi-tenant segregation.
        - **Gestión de Identidad y Accesos (IAM):** Uso de **Okta** (SSO y MFA) y **Perma Security (Opal)** para control de accesos.
@@ -193,14 +196,14 @@
   host -t txt figma.com | grep -i "v=spf1"
   ```
 - **Qué salió:** 
-  - **Resultado de `theHarvester`:** DuckDuckGo no indexa correos en texto plano directamente accesibles para scraping superficial (buena práctica de privacidad corporativa para evitar spam).
+  - **Resultado de `theHarvester`:** `theHarvester` con DuckDuckGo no devolvió ningún correo. No se puede concluir el motivo (la fuente o la herramienta pueden ser la causa).
   - **Análisis del Registro SPF (`v=spf1`):**
     - `include:_spf.google.com`: Los empleados envían correo a través de **Google Workspace**.
     - `include:mail.zendesk.com`: Envío de correos y tickets de atención al cliente delegado en **Zendesk**.
     - `include:mg-spf.greenhouse.io`: Notificaciones de selección de personal y entrevistas delegadas en la plataforma de RRHH **Greenhouse**.
     - Rango de IPs autorizadas de retransmisión transaccional: `149.72.216.165`, `167.89.79.69`, `167.89.87.53` (pertenecientes a SendGrid / Twilio).
     - Política estricta `-all` (Hard Fail: cualquier correo que no provenga de estos servidores debe ser rechazado para evitar suplantación de identidad / Spoofing).
-  - **Patrón corporativo habitual:** `{first}.{last}@figma.com` (verificado en la estructura de contactos de soporte y auditoría).
+  - **Patrón de correo corporativo:** No determinado. No se encontró ningún correo con el que verificarlo. El DMARC no se comprobó en esta entrada (solo el SPF).
 - **Evidencia:**
   <p align="center">
     <img src="img/12-correos-theharvester-spf.png" alt="Consulta theHarvester y registro SPF" width="650" />

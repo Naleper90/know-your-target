@@ -1,10 +1,7 @@
 # scope.txt · programa: Figma · consultado: 2026-10-28
-# Activos dentro del alcance (In-Scope elegibles):
+# Activos de tipo dominio dentro del alcance, según la tabla oficial de HackerOne:
 www.figma.com
 api.figma.com
-*.figma.com
 weavy.ai
-# fuera de alcance (Out-of-Scope inelegible):
+# fuera de alcance (no se toca):
 !www.designsystems.com
-!zendesk.com
-!statuspage.io

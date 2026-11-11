@@ -209,3 +209,16 @@ dns_registros("www.designsystems.com", "A")
 
 #### Conclusión Pericial:
 La validación demuestra que la precedencia de las reglas con `!` funciona con total fiabilidad: el sistema neutraliza tanto objetivos completamente desconocidos (`google.com`) como objetivos que, compartiendo contexto temático con el cliente, han sido expresamente vetados por el responsable de seguridad en las reglas de compromiso.
+
+---
+
+## Nota de corrección (11/11/2026)
+
+Esta nota se añade al final y **no modifica el texto anterior**, que recoge lo que se hizo y se obtuvo el 06/11/2026. El agente ya no está disponible, por lo que estas pruebas no pueden repetirse.
+
+1. **El alcance usado no es el `scope.txt` actual.** Las pruebas de los apartados 2.1, 2.3 y 2.5 se hicieron con un alcance que incluía el dominio raíz `figma.com`, el comodín `*.figma.com` y dos rangos `/24` de Amazon CloudFront. Ese alcance no coincide con la tabla oficial de HackerOne. El `scope.txt` actual solo contiene `www.figma.com`, `api.figma.com`, `weavy.ai` y la exclusión de `www.designsystems.com` (véase [`../alcance.md`](../alcance.md)).
+2. **Resultados de la batería del apartado 2.1 con el `scope.txt` actual.** Según las reglas que describe ese apartado (no se ha podido ejecutar de nuevo): `3.174.170.15` pasaría a ser **Fuera** (el rango `/24` de CloudFront ya no está en el alcance), `blog.figma.com` y `figma.com` serían **Fuera**, y `zendesk.com` y `statuspage.io` seguirían **Fuera**, pero por denegación por defecto y no por una regla explícita. `api.figma.com`, `https://www.figma.com/login`, `weavy.ai` y la exclusión de `www.designsystems.com` darían el mismo resultado.
+3. **Tiempos máximos de las herramientas.** El apartado 2.2 dice «timeouts forzosos (10-30 s)». En el código, los tiempos van de 10 a 90 s (`crt.sh` tiene 90 s; `subfinder` y `theHarvester`, 35 s).
+4. **Límite de llamadas.** El prompt del apartado 2.3 indica «como máximo 20 llamadas». La traza registra 28 llamadas en 8 pasos (1 bloqueada y 4 con error), así que ese límite no se respetó.
+5. **Alcance de las pruebas fuera de alcance.** En el Caso 1 solo se incluyó un objetivo ajeno (`google.com`); `blog.figma.com` estaba dentro del alcance usado entonces. El Caso 2 (`www.designsystems.com`) fue una llamada directa a la función, no una orden dada al agente.
+6. **Conclusión del Caso 2.** La afirmación de «total fiabilidad» se refiere solo a los casos probados, no al scope-guard en general.
